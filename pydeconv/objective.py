@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.optimize import fmin_cg, brent
 from scipy.misc import imshow
-import utils
+from pydeconv import utils
 
 def steepest_descent(func, X0, grad, maxiter = 100, verbose = False, project=None, alpha_0=1.0, gtol = 1e-5,  **args):
     def func_one(X,dir_):
@@ -16,7 +16,7 @@ def steepest_descent(func, X0, grad, maxiter = 100, verbose = False, project=Non
         return inner
 
     def print_info(iter, objective, gnorm):
-        print "iter:", iter, ", objective:", objective, ", ||grad||_inf:", gnorm
+        print("iter:", iter, ", objective:", objective, ", ||grad||_inf:", gnorm)
 
     failed = False
     fold = np.inf
@@ -46,7 +46,7 @@ def steepest_descent(func, X0, grad, maxiter = 100, verbose = False, project=Non
             else:
                 inner_maxiter = inner_maxiter0
             if verbose:
-                print "Could not optimize in the descent direction"
+                print("Could not optimize in the descent direction")
             break
         if project is None:
             X = X - alpha * g
@@ -60,11 +60,11 @@ def steepest_descent(func, X0, grad, maxiter = 100, verbose = False, project=Non
         if verbose: print_info(iter,f,gnorm)
         if gnorm < gtol :
             if verbose:
-                print "gradient convergence reached"
+                print("gradient convergence reached")
             break
         if iter >= maxiter:
             if verbose:
-                print "maximum number of iterations reached"
+                print("maximum number of iterations reached")
             break
     return X
 
@@ -119,7 +119,7 @@ class ObjFunc(object):
             if var.ndim == 3:
                 var = I02_m.mean(-1)
             self._M = (var < self.t*self.t).astype("uint8")
-            print "smooth parts", self._M.mean()
+            print("smooth parts", self._M.mean())
         return self._M
 
     def projectP(self, P):
@@ -324,7 +324,7 @@ class ObjFunc(object):
         if method=="cg":
             if verbose:
                 def callback(X):
-                    print "objective:",self._eval_XL(X), "||grad||_inf:", np.abs(self._eval_grad_XL(X)).max()
+                    print("objective:",self._eval_XL(X), "||grad||_inf:", np.abs(self._eval_grad_XL(X)).max())
             else:
                 callback = None
         
@@ -345,7 +345,7 @@ class ObjFunc(object):
         if method=="cg":
             if verbose:
                 def callback(X):
-                    print "objective:",self._eval_XP(X), "||grad||_inf:", np.abs(self._eval_grad_XP(X)).max()
+                    print("objective:",self._eval_XP(X), "||grad||_inf:", np.abs(self._eval_grad_XP(X)).max())
             else:
                 callback = None
         

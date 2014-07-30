@@ -2,6 +2,7 @@
 
 from distutils.core import setup
 from distutils.extension import Extension
+import numpy
 from Cython.Distutils import build_ext
 
 ext_modules = [
@@ -14,6 +15,7 @@ setup(
     author_email="alexis.mignon@gmail.com",
     name="pydeconv",
     version="0.0.1",
+    include_dirs=[numpy.get_include()],
     cmdclass={'build_ext': build_ext},
     ext_modules=ext_modules,
     packages=["pydeconv"],
